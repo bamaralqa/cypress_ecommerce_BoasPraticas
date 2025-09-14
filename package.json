@@ -1,0 +1,35 @@
+{
+  "name": "cypress_ecommerce_boaspraticas",
+  "version": "1.0.0",
+  "description": "Este projeto foi desenvolvido como desafio final da capacitação **Boas Praticas em Cypress**, com o intuito de aplicar na prática os conceitos aprendidos durante as aulas.",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run --env allure=true",
+    "test:headed": "cypress run --headed --browser chrome --env allure=true",
+    "cy:open": "cypress open",
+    "allure:report": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "test:report:open": "npm run test && npm run allure:report && npm run allure:open"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bamaralqa/cypress_ecommerce.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bamaralqa/cypress_ecommerce/issues"
+  },
+  "homepage": "https://github.com/bamaralqa/cypress_ecommerce#readme",
+  "dependencies": {
+    "cypress": "^14.5.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "@shelex/cypress-allure-plugin": "^2.41.2",
+    "allure-commandline": "^2.34.1"
+  }
+}

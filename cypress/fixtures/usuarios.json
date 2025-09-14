@@ -1,0 +1,14 @@
+
+{
+  "existente":{
+    "nome":"Carlos",
+    "email":"tester.valido@automation.com",
+    "senha":"SenhaForte123!"
+  },
+  "valida":{
+    "nome":"Carlos",
+    "email":"tester.valido@automation.com",
+    "senha":"SenhaForte123!"
+  }
+
+}
