@@ -1,32 +1,29 @@
 /// <reference types='cypress' />
-// Ações e elementos da página inicial
+import { SELECTORS } from '../selectors'
 
-//Elementos mapeados da homePage
-
-const ELEMENTS = {
-      linkSignupLogin: 'a[href="/login"]',
-      linkLogout: 'a[href="/logout"]',
-      loggedInAsLabel: 'li a:contains("Logged in as")'
-
-}
-
-
-// Classe com métodos de acesso aos elementos pagina Home
-
-
-class HomePage{
-    acessarHome(){
+class HomePage {
+    acessarHome() {
         cy.visit('/')
-        cy.get(ELEMENTS.linkSignupLogin).should('be.visible')
+        cy.get(SELECTORS.home.linkSignupLogin).should('be.visible')
     }
 
-    clicarLinkSignupLogin(){
-        cy.get(ELEMENTS.linkSignupLogin).click()
+    clicarLinkSignupLogin() {
+        cy.get(SELECTORS.home.linkSignupLogin).click()
     }
-    validarLoginComSucesso(nomeUsuario){
-        cy.get(ELEMENTS.linkLogout).should('be.visible')
-        cy.get(ELEMENTS.loggedInAsLabel).should('contain.text', nomeUsuario);
+
+    validarLoginComSucesso(nomeUsuario) {
+        cy.get(SELECTORS.home.linkLogout).should('be.visible')
+        cy.get(SELECTORS.home.loggedInAsLabel).should('contain.text', nomeUsuario);
     }
+    // Clica no link "Logout" quando o usuário está logado.
+    clicarLinkLogout() {
+        cy.get(SELECTORS.home.linkLogout).click();
     }
+
+    validarLogoutComSucesso() {
+        cy.url().should('include', '/login'); // Garante que foi redirecionado
+        cy.get(SELECTORS.home.linkSignupLogin).should('be.visible');
+    }
+}
 
 export default new HomePage();

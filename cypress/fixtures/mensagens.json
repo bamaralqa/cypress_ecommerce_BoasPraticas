@@ -1,0 +1,10 @@
+{
+  "login": {
+    "erroCredenciais": "Your email or password is incorrect!",
+    "erroCampoObrigatorio": "Preencha este campo."
+  },
+  "cadastro": {
+    "erroEmailExistente": "Email Address already exist!",
+    "sucesso": "Account Created!"
+  }
+}

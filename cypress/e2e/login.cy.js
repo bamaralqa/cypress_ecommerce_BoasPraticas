@@ -1,51 +1,55 @@
 /// <reference types='cypress' />
 
-import HomePage from '../support/pageObjects/HomePage';
-import LoginPage from '../support/pageObjects/LoginPage';
+import homePage from '../support/pageObjects/HomePage';
+import loginPage from '../support/pageObjects/LoginPage';
 
 // ---Testes relacionados ao fluxo de login ---
+describe('Autenticação de Usuário', () => {
 
-describe('Fluxo Login', ()=>{
-  beforeEach(()=>{
-    HomePage.acessarHome()
-    HomePage.clicarLinkSignupLogin()
-  })
-
-  it('Realizar login com sucesso', () => {
-     //Utilizando usuario do arquivo fixtures>usuario.json
-      cy.fixture('usuarios').then( massa => {
-        LoginPage.fazerLogin(massa.valida.email, massa.valida.senha)
-
-        HomePage.validarLoginComSucesso(massa.valida.nome)
-      })
-      
-  })
-
-  it('Tentativa de login com dados inválidos',() => {
-    LoginPage.fazerLogin('emailinvalido@teste.com','senhaerrada')
-    
-    LoginPage.validarErroLogin()
-  })
-
-  it('Tentativa de login sem informar email',() => {
-    LoginPage.clicarBotaoLogin()
-
-    LoginPage.validarErroCampoEmailObrigatorio()    
-  })
-
-  it('Tentativa de login sem informar senha',() => {
-    cy.fixture('usuarios').then( massa => {
-      LoginPage.preencherEmail( massa.valida.email)
-
-      LoginPage.clicarBotaoLogin()
-      LoginPage.validarErroCampoSenhaObrigatorio()
+  // Teste de login com sucesso
+  it('Deve realizar login com sucesso', () => {
+    //Utilizando usuario do arquivo fixtures>usuario.json
+    cy.fixture('usuarios').then(massa => {
+      cy.login(massa.valido.email, massa.valido.senha)
+      //validação
+      homePage.validarLoginComSucesso(massa.valido.nome)
     })
   })
 
+  // Teste de logout com sucesso 
+  it('Deve realizar logout com sucesso', () => {
+    // Pré-condição: Fazer login e após fazer logout
+    cy.fixture('usuarios').then(massa => {
+      cy.login(massa.valido.email, massa.valido.senha)
+    })
+    homePage.clicarLinkLogout()
 
+    //valida se o logout foi bem sucedido
+    homePage.validarLogoutComSucesso()
+  })
+
+  // --- Contexto separado para os cenários de falha ---
+  context('Cenario de falha', () => {
+    beforeEach(() => {
+      cy.visit('/login')
+    })
+
+    it('Deve exibir erro ao tentar logar com credenciais inválidas', () => {
+      loginPage.fazerLogin('emailinvalido@teste.com', 'senhaerrada')
+      loginPage.validarErroLogin()
+    })
+
+    it('Deve exibir erro de campo obrigatório para e-mail', () => {
+      loginPage.clicarBotaoLogin()
+      loginPage.validarErroCampoEmailObrigatorio()
+    })
+
+    it('Deve exibir erro de campo obrigatório para senha', () => {
+      cy.fixture('usuarios').then(massa => {
+        loginPage.preencherEmail(massa.valido.email)
+        loginPage.clicarBotaoLogin()
+        loginPage.validarErroCampoSenhaObrigatorio()
+      })
+    })
+  })
 })
-
-  
-
-  
-  

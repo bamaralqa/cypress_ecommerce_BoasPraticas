@@ -1,82 +1,63 @@
 /// <reference types='cypress' />
-// Ações e elementos da página de Login/Cadastro inicial
+import { SELECTORS } from '../selectors'
 
-// Elementos mapeados da Login Page ( Cadastro e Login )
-const ELEMENTS = {
-    // --- Seletores Área Login ---
-    inputEmailLogin: '[data-qa="login-email"]',
-    inputPassword: '[data-qa="login-password"]',
-    btnLogin: '[data-qa="login-button"]',
-    mensagemErroLogin: 'p[style*="color: red"]',
-    // Validação do elemento mensagem "Peencha este campo" está nos comandos customizados de forma generica (commands.js)
-    
-
-    // --- Seletores Área Cadastro ---
-    tituloSignup: '.signup-form h2',
-    inputNomeSignup:'[data-qa="signup-name"]',
-    inputEmailSignup: '[data-qa="signup-email"]',
-    btnSignup:'[data-qa="signup-button"]',
-    mensagemErroEmailExistente: '.signup-form form p',
-    
-}
-
-//Classe com métodos de acesso aos elementos de Cadastro e Login
-
-
-class LoginPage{
-    // --- Métodos relacionados ao fluxo de Login ---
-    
-    preencherEmail(email){
-        cy.get(ELEMENTS.inputEmailLogin).type(email)
+class LoginPage {
+    // --- Ações de Login ---
+    preencherEmail(email) {
+        cy.get(SELECTORS.login.inputEmail).type(email)
     }
 
-    preencherSenha(senha){
-        cy.get(ELEMENTS.inputPassword).type(senha)
-
+    preencherSenha(senha) {
+        cy.get(SELECTORS.login.inputPassword).type(senha)
     }
 
-    clicarBotaoLogin(){
-        cy.get(ELEMENTS.btnLogin).click()
+    clicarBotaoLogin() {
+        cy.get(SELECTORS.login.buttonLogin).click()
     }
-   
-    fazerLogin(email,senha){
+
+    fazerLogin(email, senha) {
         this.preencherEmail(email)
         this.preencherSenha(senha)
         this.clicarBotaoLogin()
     }
 
-    // --- Metodos d validação ---
-
-    validarErroLogin(){
-        cy.get(ELEMENTS.mensagemErroLogin)
-        .should('be.visible')
-        .and('contain.text','Your email or password is incorrect!')
-    }
-    
-    validarErroCampoEmailObrigatorio(){
-        cy.get(ELEMENTS.inputEmailLogin).validaMensagemCampoObrigatorio('Preencha este campo.')
+    // --- Açoes de Cadastro Inicial ---
+    preencherCadastroInicial(nome, email) {
+        cy.get(SELECTORS.signup.tituloNovoUsuario).should('be.visible')
+        cy.get(SELECTORS.signup.inputNome).type(nome)
+        cy.get(SELECTORS.signup.inputEmail).type(email)
     }
 
-    validarErroCampoSenhaObrigatorio(){
-        cy.get(ELEMENTS.inputPassword).validaMensagemCampoObrigatorio ('Preencha este campo.')
+    clicarBotaoSignup() {
+        cy.get(SELECTORS.signup.buttonSignup).click()
     }
 
-    
-    // --- Métodos relacionados ao fluxo de Cadastro ---
-
-    preencherCadastroInicial(nome,email){
-        cy.get(ELEMENTS.tituloSignup).should('be.visible')
-        cy.get(ELEMENTS.inputNomeSignup).type(nome)
-        cy.get(ELEMENTS.inputEmailSignup).type(email)
+    // --- Validação ---
+    validarErroLogin() {
+        cy.fixture('mensagens').then(msg => {
+            cy.get(SELECTORS.login.mensagemErro).should('be.visible')
+                .and('contain.text', msg.login.erroCredenciais)
+        })
+    }
+    validarErroEmailExistente() {
+        cy.fixture('mensagens').then(msg => {
+            cy.get(SELECTORS.signup.mensagemErroEmailExistente).should('be.visible')
+                .and('have.text', msg.cadastro.erroEmailExistente)
+        })
     }
 
-    clicarBotaoSignup(){
-        cy.get(ELEMENTS.btnSignup).click()
+    validarErroCampoEmailObrigatorio() {
+        cy.fixture('mensagens').then(msg => {
+            cy.get(SELECTORS.login.inputEmail)
+                .validaMensagemCampoObrigatorio(msg.login.erroCampoObrigatorio);
+        })
     }
 
-    validarErroEmailExistente(){
-        cy.get(ELEMENTS.mensagemErroEmailExistente).should('be.visible')
-        .and('have.text', 'Email Address already exist!')
+    validarErroCampoSenhaObrigatorio() {
+        cy.fixture('mensagens').then(msg => {
+            cy.get(SELECTORS.login.inputPassword)
+                .validaMensagemCampoObrigatorio(msg.login.erroCampoObrigatorio)
+        })
     }
 }
 
