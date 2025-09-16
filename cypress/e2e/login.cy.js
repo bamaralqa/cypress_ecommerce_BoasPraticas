@@ -4,7 +4,7 @@ import homePage from '../support/pageObjects/HomePage';
 import loginPage from '../support/pageObjects/LoginPage';
 
 // ---Testes relacionados ao fluxo de login ---
-describe('Autenticação de Usuário', () => {
+describe('Autenticação de usuário', () => {
 
   // Teste de login com sucesso
   it('Deve realizar login com sucesso', () => {

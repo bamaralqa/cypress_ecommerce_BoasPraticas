@@ -5,7 +5,7 @@ export const SELECTORS = {
         linkLogout: 'a[href="/logout"]',
         loggedInAsLabel: 'li a:contains("Logged in as")',
         linkSignupLogin: 'a[href="/login"]',
-        linkLogout: 'a[href="/logout"]', // <-- ADICIONADO AQUI
+        linkLogout: 'a[href="/logout"]', // 
         loggedInAsLabel: 'li a:contains("Logged in as")',
     },
 

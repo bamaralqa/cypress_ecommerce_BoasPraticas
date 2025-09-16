@@ -1,5 +1,6 @@
 # 📌 Projeto Final – Excelência em Automação de Testes com Cypress
 
+
 ## 🎯 Objetivo
 Este projeto representa a conclusão do **Bootcamp de Automação da Minsait**, com foco na aplicação de **Boas Práticas Avançadas** para a criação de testes robustos, manuteníveis e eficientes.
 
